@@ -1,7 +1,7 @@
 # aplikasiapi_8
-Kelompok 8 : Praktikum Pemrograman Mobile\n
-Ajeng Cita Indahsari\n
-Tiara Febrianti\n
+Kelompok 8 : Praktikum Pemrograman Mobile<br>
+Ajeng Cita Indahsari<br>
+Tiara Febrianti<br>
 Risa Rosarina
 
 ## Getting Started
