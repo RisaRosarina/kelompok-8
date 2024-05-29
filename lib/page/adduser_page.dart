@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -11,40 +12,58 @@ class AddUserPage extends StatefulWidget {
 }
 
 class _AddUserPageState extends State<AddUserPage> {
+  List hasilPostingan = [];
+  bool isLoading = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _jobController = TextEditingController();
 
-  Future<void> addUserData(
-      {required String username, required String job}) async {
+  Future<void> addUserData(String username, String job) async {
+    print(username);
+    print(job);
     var url = "https://reqres.in/api/users";
-    final response =
-        await http.post(Uri.parse(url), body: {"name": username, "job": job});
+    final response = await http.post(Uri.parse(url), body: {
+      "name": username,
+      "job": job,
+    });
+    print(response.statusCode);
+    isLoading = true;
+    if (response.statusCode == 201) {
+      print('Success');
+      Navigator.pop(context, '/list_user');
+    }
+  }
 
-    // menampilkan data diconsole, data-response dari server
-    log(response.body);
+  void getSemuaPostingan() async {
+    var url = "https://reqres.in/api/users";
+    final response = await http.post(Uri.parse(url));
+    setState(() {
+      final jsonData = jsonDecode(response.body);
+      hasilPostingan = jsonData["data"];
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                "Tambah Pengguna",
+                "Add User",
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 23,
                 ),
               ),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Pengguna",
-                    hintText: "Masukkan Nama Pengguna"),
+                    labelText: "user",
+                    hintText: "Masukan User"),
               ),
               const SizedBox(
                 height: 24,
@@ -53,8 +72,8 @@ class _AddUserPageState extends State<AddUserPage> {
                 controller: _jobController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Pekerjaan",
-                    hintText: "Masukkan Nama Pekerjaan"),
+                    labelText: "Job",
+                    hintText: "Pekerjaan"),
               ),
               const SizedBox(
                 height: 10,
@@ -64,11 +83,11 @@ class _AddUserPageState extends State<AddUserPage> {
                 child: ElevatedButton(
                     onPressed: () async {
                       await addUserData(
-                          username: _nameController.text,
-                          job: _jobController.text);
+                          _nameController.text, _jobController.text);
+                      print(addUserData);
                     },
                     child: const Text("Kirim")),
-              )
+              ),
             ],
           ),
         ),
