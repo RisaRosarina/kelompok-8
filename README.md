@@ -1,6 +1,8 @@
 # aplikasiapi_8
-
-A new Flutter project.
+Kelompok 8 : Praktikum Pemrograman Mobile<br>
+Ajeng Cita Indahsari<br>
+Tiara Febrianti<br>
+Risa Rosarina
 
 ## Getting Started
 
